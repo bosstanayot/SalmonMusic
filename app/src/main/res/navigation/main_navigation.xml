@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/musicListFragment">
+
+    <fragment
+        android:id="@+id/musicListFragment"
+        android:name="tanayot.barjord.musicplayerapplication.ui.list.MusicListFragment"
+        android:label="MusicListFragment"
+        tools:layout="@layout/music_list_fragment">
+        <action
+            android:id="@+id/action_musicListFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/playerFragment"
+        android:name="tanayot.barjord.musicplayerapplication.ui.PlayerFragment"
+        android:label="PlayerFragment"
+        tools:layout="@layout/player_fragment">
+        <argument android:name="songData" app:argType="tanayot.barjord.musicplayerapplication.model.Song"/>
+    </dialog>
+</navigation>
