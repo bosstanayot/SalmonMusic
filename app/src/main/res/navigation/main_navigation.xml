@@ -9,17 +9,7 @@
         android:id="@+id/musicListFragment"
         android:name="tanayot.barjord.musicplayerapplication.ui.list.MusicListFragment"
         android:label="MusicListFragment"
-        tools:layout="@layout/music_list_fragment">
-        <action
-            android:id="@+id/action_musicListFragment_to_playerFragment"
-            app:destination="@id/playerFragment" />
-    </fragment>
+        tools:layout="@layout/music_list_fragment"/>
+    <include app:graph="@navigation/musicplayer_navigation" />
 
-    <dialog
-        android:id="@+id/playerFragment"
-        android:name="tanayot.barjord.musicplayerapplication.ui.PlayerFragment"
-        android:label="PlayerFragment"
-        tools:layout="@layout/player_fragment">
-        <argument android:name="songData" app:argType="tanayot.barjord.musicplayerapplication.model.Song"/>
-    </dialog>
 </navigation>

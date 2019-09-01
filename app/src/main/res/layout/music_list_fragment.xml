@@ -1,32 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <variable
+            name="viewModel"
+            type="tanayot.barjord.musicplayerapplication.viewmodels.MusicListViewModel" />
         <variable
             name="adapter"
             type="tanayot.barjord.musicplayerapplication.ui.list.MusicListViewAdapter" />
     </data>
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.list.MusicListFragment">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout
+            android:id="@+id/sliding_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:adapter="@{adapter}"/>
+            android:gravity="bottom"
+            app:umanoInitialState="hidden"
+            app:umanoPanelHeight="68dp"
+            app:umanoShadowHeight="4dp">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:fitsSystemWindows="true"
-            app:behavior_hideable="false"
-            app:behavior_peekHeight="0dp"
-            app:layout_behavior="@string/bottom_sheet_behavior">
-            <include layout="@layout/player_fragment" />
-        </FrameLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:adapter="@{adapter}"/>
+            <include
+                android:id="@+id/playerView"
+                layout="@layout/player_fragment"
+                bind:viewModel="@{viewModel}"/>
+            <!--<fragment
+                android:id="@+id/music_player_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                android:gravity="center|top"
+                app:navGraph="@navigation/musicplayer_navigation" />-->
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+    </RelativeLayout>
 </layout>
 

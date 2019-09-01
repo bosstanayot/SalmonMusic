@@ -7,11 +7,11 @@ import tanayot.barjord.musicplayerapplication.repositories.SongRepository
 
 class MusicListViewModel (songRepository: SongRepository):ViewModel() {
     var mSongs: MutableLiveData<ArrayList<Song>> =  MutableLiveData()
-
+    val currentSong: MutableLiveData<Song> = MutableLiveData()
     init {
         mSongs = songRepository.getSongs()
     }
-    fun getSongs(): ArrayList<Song>?{
-        return mSongs.value
+    fun getSongs(): ArrayList<Song>{
+        return mSongs.value!!
     }
 }

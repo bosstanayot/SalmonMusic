@@ -11,14 +11,9 @@ class PlayerViewModel(private val context: Context) : ViewModel() {
     val songs: MutableLiveData<Song> = MutableLiveData()
     var artWork: Drawable? = null
 
-    fun assignArgument(args: PlayerFragmentArgs) {
+   /* fun assignArgument(args: PlayerFragmentArgs) {
        songs.value = args.songData
         artWork = BitmapDrawable(context.resources, args.songData.imgSong)
-    }
+    }*/
 
-
-    fun assignArgument2(args: Song) {
-        songs.value = args
-        artWork = BitmapDrawable(context.resources, args.imgSong)
-    }
 }

@@ -41,7 +41,6 @@ class SongRepository(private val context: Context) {
             mmr.setDataSource(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA)))
             val data = mmr.embeddedPicture
             val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
-            val drawable: Drawable = BitmapDrawable(context.resources, bitmap)
 
             songs.add(
                 Song(

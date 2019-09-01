@@ -12,20 +12,62 @@
         app:unplayed_color="@color/unplay_color"
         app:buffered_color="@color/unplay_color"
         android:layout_height="16dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:id="@id/exo_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:includeFontPadding="false"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/colorAccent"/>
+
+        <TextView android:id="@id/exo_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_alignParentRight="true"
+            android:includeFontPadding="false"
+            android:textColor="@color/colorAccent"/>
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center">
         <ImageView
-            android:id="@+id/exo_pause"
+            android:id="@+id/exo_prev"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_pause_black_24dp"/>
+            android:src="@drawable/ic_skip_previous_black_24dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/grid_space_30"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/exo_pause"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_pause_black_24dp"/>
+            <ImageView
+                android:id="@+id/exo_play"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_play_arrow_black_24dp"/>
+        </LinearLayout>
         <ImageView
-            android:id="@+id/exo_play"
+            android:id="@+id/exo_next"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_play_arrow_black_24dp"/>
+            android:src="@drawable/ic_skip_next_black_24dp"/>
     </LinearLayout>
+
 </LinearLayout>

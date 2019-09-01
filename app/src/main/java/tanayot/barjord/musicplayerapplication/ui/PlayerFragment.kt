@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.media.MediaDescriptionCompat
+import android.support.v4.media.session.MediaSessionCompat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +14,12 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
+import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource
+import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
@@ -28,11 +35,10 @@ import tanayot.barjord.musicplayerapplication.model.Song
 import tanayot.barjord.musicplayerapplication.ui.list.MusicListFragment
 
 
-class PlayerFragment : BottomSheetDialogFragment() {
+class PlayerFragment : Fragment() {
     lateinit var player: SimpleExoPlayer
     private lateinit var binding: PlayerFragmentBinding
     private val viewModel: PlayerViewModel by viewModel()
-    private lateinit var sheetBehavior: BottomSheetBehavior<View>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = PlayerFragmentBinding.inflate(inflater, container, false)
@@ -41,44 +47,39 @@ class PlayerFragment : BottomSheetDialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-       binding.viewModel = viewModel.apply { arguments?.let {
+       /*binding.viewModel = viewModel.apply { arguments?.let {
             assignArgument(PlayerFragmentArgs.fromBundle(it))
-        } }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.viewTreeObserver.addOnGlobalLayoutListener {
-            val bottomSheet = dialog?.findViewById(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
-            val behavior = BottomSheetBehavior.from(bottomSheet)
-           behavior.peekHeight = binding.dragMe.height
-           binding.dragMe.requestLayout()
-        }
-    }
-
-    @SuppressLint("RestrictedApi")
-    override fun setupDialog(dialog: Dialog, style: Int) {
-        super.setupDialog(dialog, R.style.CustomBottomSheetDialogTheme)
-        dialog?.window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        dialog?.setCanceledOnTouchOutside(false)
-        //dialog?.setCancelable(false)
+        } }*/
     }
 
     override fun onStart() {
         super.onStart()
-        player = ExoPlayerFactory.newSimpleInstance(context, DefaultTrackSelector())
-        binding.playerController.player = player
-        val dataSourceFactory = DefaultDataSourceFactory(
-            context,
-            Util.getUserAgent(context, getString(R.string.app_name))
-        )
+        if(viewModel.songs.value?.path != null){
+            player = ExoPlayerFactory.newSimpleInstance(context, DefaultTrackSelector())
+            binding.playerController.player = player
+            val dataSourceFactory = DefaultDataSourceFactory(
+                context,
+                Util.getUserAgent(context, getString(R.string.app_name))
+            )
 
-        val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(Uri.fromFile(File(viewModel.songs.value?.path!!)))
+            /*val mediaSession = MediaSessionCompat(context, "MUSIC")
+            mediaSession.isActive = true
 
-        player.prepare(mediaSource)
-        player.playWhenReady = true
+            val  mediaSessionConnector = MediaSessionConnector(mediaSession)
+            mediaSessionConnector.setQueueNavigator(object: TimelineQueueNavigator(mediaSession) {
+                override fun getMediaDescription(player: Player?, windowIndex: Int): MediaDescriptionCompat {
+                    return Samples.getMediaDescription(context, SAMPLES[windowIndex])
+                }
+
+            })*/
+
+            val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(Uri.fromFile(File(viewModel.songs.value?.path!!)))
+
+            player.prepare(mediaSource)
+            player.playWhenReady = true
+        }
+
 
     }
 

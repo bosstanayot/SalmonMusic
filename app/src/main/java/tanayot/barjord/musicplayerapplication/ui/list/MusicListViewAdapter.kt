@@ -38,7 +38,7 @@ class MusicListViewAdapter(var mItems: ArrayList<Song>?,
         fun bind(item: Song?){
             binding.song =  item
             binding.root.setOnClickListener {
-                listener.onMusicClicked(item)
+                listener.onMusicClicked(item, adapterPosition)
             }
         }
     }

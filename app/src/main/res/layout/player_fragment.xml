@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:clickable="false"
-    app:layout_behavior="@string/bottom_sheet_behavior">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
-            type="tanayot.barjord.musicplayerapplication.ui.PlayerViewModel" />
+            type="tanayot.barjord.musicplayerapplication.viewmodels.MusicListViewModel" />
     </data>
 <LinearLayout
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     tools:context=".ui.PlayerFragment">
-    <TextView
+    <ImageView
         android:id="@+id/drag_me"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:gravity="center"
-        android:text="Dragme"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:src="@drawable/ic_expand_more_black_24dp" />
 <ImageView
     android:id="@+id/imageView"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:setImageBitmap="@{viewModel.songs.imgSong}"/>
+    android:setImageBitmap="@{viewModel.currentSong.imgSong}"/>
    <!-- <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/playerView"
         android:layout_width="match_parent"
@@ -42,7 +39,7 @@
         android:textColor="@color/ss_black"
         android:textSize="@dimen/text_size_28"
         android:textStyle="bold"
-        android:text="@{viewModel.songs.title}"
+        android:text="@{viewModel.currentSong.title}"
         />
     <TextView
         android:layout_width="match_parent"
@@ -51,7 +48,7 @@
         android:textColor="@color/ss_black"
         android:textSize="@dimen/text_size_28"
         android:textStyle="normal"
-        android:text="@{viewModel.songs.artist}"
+        android:text="@{viewModel.currentSong.artist}"
         />
 
         <com.google.android.exoplayer2.ui.PlaybackControlView
