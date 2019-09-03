@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:gravity="bottom"
             app:umanoInitialState="hidden"
-            app:umanoPanelHeight="68dp"
+            app:umanoPanelHeight="?attr/actionBarSize"
             app:umanoShadowHeight="4dp">
 
             <androidx.recyclerview.widget.RecyclerView

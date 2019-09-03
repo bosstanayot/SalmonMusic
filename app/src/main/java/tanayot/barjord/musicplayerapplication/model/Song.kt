@@ -46,19 +46,19 @@ data class Song(
             override fun createFromParcel(source: Parcel): Song = Song(source)
             override fun newArray(size: Int): Array<Song?> = arrayOfNulls(size)
         }
-    }
 
-    fun getMediaDescription(context: Context, song: Song): MediaDescriptionCompat {
-        val extras = Bundle()
-        extras.putParcelable(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, song.imgSong)
-        extras.putParcelable(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, song.imgSong)
-        return MediaDescriptionCompat.Builder()
-            .setMediaId(song.id)
-            .setIconBitmap(song.imgSong)
-            .setTitle(song.title)
-            .setDescription(song.artist)
-            .setExtras(extras)
-            .build()
+        fun getMediaDescription(context: Context, song: Song): MediaDescriptionCompat {
+            val extras = Bundle()
+            extras.putParcelable(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, song.imgSong)
+            extras.putParcelable(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, song.imgSong)
+            return MediaDescriptionCompat.Builder()
+                .setMediaId(song.id)
+                .setIconBitmap(song.imgSong)
+                .setTitle(song.title)
+                .setDescription(song.artist)
+                .setExtras(extras)
+                .build()
+        }
     }
 
 }

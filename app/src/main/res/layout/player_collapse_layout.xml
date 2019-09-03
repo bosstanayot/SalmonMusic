@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="?attr/actionBarSize"
+    android:gravity="center">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/exo_play"
+            android:layout_width="@dimen/grid_space_36"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/exo_pause"
+            android:layout_width="@dimen/grid_space_36"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_pause_black_24dp"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/exo_next"
+        android:layout_width="@dimen/grid_space_36"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_skip_next_black_24dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/exo_pause"
+        android:layout_marginLeft="@dimen/grid_space_8"/>
+</LinearLayout>
