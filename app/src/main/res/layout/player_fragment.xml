@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
@@ -12,8 +13,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    tools:context=".ui.PlayerFragment">
+    android:fitsSystemWindows="true">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
@@ -36,7 +36,7 @@
                 <ImageView
                     android:layout_width="?attr/actionBarSize"
                     android:layout_height="match_parent"
-                    android:setImageBitmap="@{viewModel.currentSong.imgSong}"/>
+                    bind:musicImage="@{viewModel.currentSong.picUrl}" />
                 <TextView
                     android:id="@+id/collapesTitle"
                     android:layout_width="match_parent"
@@ -68,7 +68,7 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:setImageBitmap="@{viewModel.currentSong.imgSong}"/>
+        bind:musicImage="@{viewModel.currentSong.picUrl}"/>
     <!-- <com.google.android.exoplayer2.ui.PlayerView
          android:id="@+id/playerView"
          android:layout_width="match_parent"

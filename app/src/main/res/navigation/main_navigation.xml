@@ -10,6 +10,4 @@
         android:name="tanayot.barjord.musicplayerapplication.ui.list.MusicListFragment"
         android:label="MusicListFragment"
         tools:layout="@layout/music_list_fragment"/>
-    <include app:graph="@navigation/musicplayer_navigation" />
-
 </navigation>

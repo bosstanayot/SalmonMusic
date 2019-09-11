@@ -1,4 +1,4 @@
-package tanayot.barjord.musicplayerapplication
+package tanayot.barjord.musicplayerapplication.service
 
 import android.app.Service
 import android.content.Intent

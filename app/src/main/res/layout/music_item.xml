@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="song"
-            type="tanayot.barjord.musicplayerapplication.model.Song" />
+            name="music"
+            type="tanayot.barjord.musicplayerapplication.model.Music" />
     </data>
     <LinearLayout
         android:orientation="horizontal"
@@ -16,7 +17,7 @@
             android:id="@+id/img_song_list"
             android:layout_width="@dimen/img_list_song"
             android:layout_height="@dimen/img_list_song"
-            android:setImageBitmap="@{song.imgSong}"/>
+            bind:musicImage="@{music.picUrl}"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,7 +35,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:gravity="center_vertical"
-                android:text="@{song.title}"/>
+                android:text="@{music.title}"/>
             <TextView
                 android:id="@+id/music_artist"
                 android:layout_width="match_parent"
@@ -44,7 +45,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:gravity="center_vertical"
-                android:text="@{song.artist}"/>
+                android:text="@{music.artist}"/>
         </LinearLayout>
 
 

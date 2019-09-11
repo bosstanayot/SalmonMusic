@@ -1,10 +1,10 @@
 package tanayot.barjord.musicplayerapplication.ui.list
 
-import tanayot.barjord.musicplayerapplication.model.Song
+import tanayot.barjord.musicplayerapplication.model.Music
 
 interface MusicListListener {
     fun onMusicClicked(
-        song: Song?,
+        music: Music?,
         position: Int
     )
 }

@@ -1,26 +1,16 @@
 package tanayot.barjord.musicplayerapplication.ui.list
 
-import android.Manifest
-import android.app.Activity
-import android.app.PendingIntent
-import android.content.ContentValues.TAG
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.media.session.MediaSession
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.app.NotificationCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -34,27 +24,18 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import kotlinx.android.synthetic.main.player_controler_view.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import tanayot.barjord.musicplayerapplication.DescriptionAdapter
-import tanayot.barjord.musicplayerapplication.MusicActivity
-import tanayot.barjord.musicplayerapplication.MusicPlayerService
+import tanayot.barjord.musicplayerapplication.ui.DescriptionAdapter
+import tanayot.barjord.musicplayerapplication.service.MusicPlayerService
 import tanayot.barjord.musicplayerapplication.R
 import tanayot.barjord.musicplayerapplication.databinding.MusicListFragmentBinding
-import tanayot.barjord.musicplayerapplication.model.Song
+import tanayot.barjord.musicplayerapplication.model.Music
 import tanayot.barjord.musicplayerapplication.viewmodels.MusicListViewModel
-import java.io.File
 
-class MusicListFragment : Fragment(), PermissionListener, MusicListListener {
+class MusicListFragment : Fragment(), MusicListListener {
     var player: SimpleExoPlayer? = null
     private val viewModel: MusicListViewModel by viewModel()
     private lateinit var binding: MusicListFragmentBinding
@@ -66,37 +47,20 @@ class MusicListFragment : Fragment(), PermissionListener, MusicListListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding =  MusicListFragmentBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+        binding.adapter = MusicListViewAdapter(this)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        runPermission()
         val intent = Intent(context, MusicPlayerService::class.java)
         context?.startService(intent)
-       // Util.startForegroundService(context, intent)
-    }
-
-    private fun runPermission(){
-        Dexter.withActivity(activity)
-            .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-            .withListener(this).check()
-    }
-
-    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-        binding.adapter = MusicListViewAdapter(viewModel.getSongs(), this)
-        viewModel.mSongs.observe(this, Observer {
-            binding.adapter?.setNewList(it)
+        viewModel.musicList.observe(this, Observer<PagedList<Music>> {
+            binding.adapter?.submitList(it)
         })
     }
 
-    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
-        token!!.continuePermissionRequest()
-    }
-
-    override fun onPermissionDenied(response: PermissionDeniedResponse?) {}
-
-    override fun onMusicClicked(song: Song?, position: Int) {
+    override fun onMusicClicked(music: Music?, position: Int) {
         if(player == null){
             initPlayer()
             binding.slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
@@ -128,9 +92,9 @@ class MusicListFragment : Fragment(), PermissionListener, MusicListListener {
         )
 
         val concatenatingMediaSource = ConcatenatingMediaSource()
-        for (song in viewModel.getSongs()) {
+        for (music in viewModel.musicList.value!!) {
             val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(Uri.fromFile(File(song.path)))
+                .createMediaSource(Uri.parse(music.streamUrl))
             concatenatingMediaSource.addMediaSource(mediaSource)
         }
 
@@ -139,7 +103,7 @@ class MusicListFragment : Fragment(), PermissionListener, MusicListListener {
             addListener(object :Player.EventListener{
                 override fun onTracksChanged(trackGroups: TrackGroupArray?, trackSelections: TrackSelectionArray?) {
                     binding.playerView.viewModel = viewModel.apply {
-                        currentSong.value = getSongs()[player?.currentWindowIndex!!]
+                        currentSong.value = musicList.value?.get(player?.currentWindowIndex!!)
                     }
                 }
             })
@@ -168,7 +132,7 @@ class MusicListFragment : Fragment(), PermissionListener, MusicListListener {
                 player: Player?,
                 windowIndex: Int
             ): MediaDescriptionCompat {
-                return Song.getMediaDescription(context!!, viewModel.getSongs()[windowIndex])
+                return Music.getMediaDescription(viewModel.musicList.value?.get(windowIndex))
             }
 
         })
