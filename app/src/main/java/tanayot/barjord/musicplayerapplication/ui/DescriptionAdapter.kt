@@ -25,15 +25,15 @@ class DescriptionAdapter(private val context:Context,
     }
 
     override fun getCurrentContentText(player: Player?): String? {
-        return viewModel.musicList.value?.get(player!!.currentWindowIndex)?.artist
+        return viewModel.musicDataList.value?.get(player!!.currentWindowIndex)?.artist
     }
 
     override fun getCurrentContentTitle(player: Player?): String? {
-        return viewModel.musicList.value?.get(player!!.currentWindowIndex)?.title
+        return viewModel.musicDataList.value?.get(player!!.currentWindowIndex)?.title
     }
 
     override fun getCurrentLargeIcon(player: Player?, callback: PlayerNotificationManager.BitmapCallback?): Bitmap? {
-        loadBitmap(viewModel.musicList.value?.get(player!!.currentWindowIndex)?.picUrl, callback)
+        loadBitmap(viewModel.musicDataList.value?.get(player!!.currentWindowIndex)?.picUrl, callback)
         return null
     }
 

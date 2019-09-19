@@ -26,7 +26,10 @@ class MusicListRepository(private val api: Fuel) {
         return DataResult(
             result,
             musicListDataSourceFactory.isInitLoading,
-            musicListDataSourceFactory.networkError
+            musicListDataSourceFactory.networkError,
+            musicListDataSourceFactory.musicDataList,
+            musicListDataSourceFactory.tempMusicList,
+            musicListDataSourceFactory.lastMusicDataList
         )
     }
 }

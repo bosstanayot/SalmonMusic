@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.list.MusicListFragment">
+
         <com.sothree.slidinguppanel.SlidingUpPanelLayout
             android:id="@+id/sliding_layout"
             android:layout_width="match_parent"
@@ -23,25 +24,21 @@
             app:umanoInitialState="hidden"
             app:umanoPanelHeight="?attr/actionBarSize"
             app:umanoShadowHeight="4dp">
-
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:adapter="@{adapter}"/>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
             <include
                 android:id="@+id/playerView"
                 layout="@layout/player_fragment"
                 bind:viewModel="@{viewModel}"/>
-            <!--<fragment
-                android:id="@+id/music_player_fragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:defaultNavHost="true"
-                android:gravity="center|top"
-                app:navGraph="@navigation/musicplayer_navigation" />-->
         </com.sothree.slidinguppanel.SlidingUpPanelLayout>
     </RelativeLayout>
 </layout>

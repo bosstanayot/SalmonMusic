@@ -21,11 +21,11 @@ import android.net.Uri
 
 
 data class Music(
-    @SerializedName("stream_url") val streamUrl: String,
-    @SerializedName("pic_url") val picUrl: String,
-    @SerializedName("title") val title: String,
-    @SerializedName("artist") val artist: String,
-    @SerializedName("id") val musicId: String
+    @SerializedName("stream_url") val streamUrl: String = "",
+    @SerializedName("pic_url") val picUrl: String = "",
+    @SerializedName("title") val title: String = "",
+    @SerializedName("artist") val artist: String = "",
+    @SerializedName("id") val musicId: String = ""
 ) : Parcelable {
     constructor(source: Parcel) : this(
         source.readString(),
