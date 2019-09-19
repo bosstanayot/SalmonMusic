@@ -1,4 +1,4 @@
-package tanayot.barjord.musicplayerapplication
+package tanayot.barjord.musicplayerapplication.util
 
 import android.util.Log
 import androidx.annotation.MainThread

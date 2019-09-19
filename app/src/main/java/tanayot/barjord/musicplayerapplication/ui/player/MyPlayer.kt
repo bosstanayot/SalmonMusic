@@ -1,4 +1,4 @@
-package tanayot.barjord.musicplayerapplication
+package tanayot.barjord.musicplayerapplication.ui.player
 
 import android.content.Context
 import android.support.v4.media.MediaDescriptionCompat
@@ -14,21 +14,20 @@ import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
+import tanayot.barjord.musicplayerapplication.R
 import tanayot.barjord.musicplayerapplication.model.Music
-import tanayot.barjord.musicplayerapplication.ui.DescriptionAdapter
+import tanayot.barjord.musicplayerapplication.ui.adapter.DescriptionAdapter
 
 class MyPlayer(private val context: Context) {
-    private lateinit var playerNotificationManager:PlayerNotificationManager
-    private lateinit var mediaSession:  MediaSessionCompat
-    private lateinit var mediaSessionConnector: MediaSessionConnector
 
     fun initPlayer(
         concatenatingMediaSource: ConcatenatingMediaSource,
         descriptionAdapter: DescriptionAdapter,
         musicList: LiveData<ArrayList<Music>>,
-        listener: PlayerListener): SimpleExoPlayer {
-        val player = ExoPlayerFactory.newSimpleInstance(context, DefaultTrackSelector())
+        listener: PlayerListener
+    ): SimpleExoPlayer {
 
+        val player = ExoPlayerFactory.newSimpleInstance(context, DefaultTrackSelector())
         player?.apply {
             prepare(concatenatingMediaSource)
             addListener(object : Player.EventListener{
@@ -37,35 +36,36 @@ class MyPlayer(private val context: Context) {
                 }
             })
         }
+        val mediaSession = setMediaSession(musicList, player)
+        setPlayerNotificationManager(mediaSession.sessionToken, descriptionAdapter, player)
+        return player
+    }
 
-        playerNotificationManager = PlayerNotificationManager.createWithNotificationChannel(
+    private fun setMediaSession(musicList: LiveData<ArrayList<Music>>, player: SimpleExoPlayer): MediaSessionCompat{
+        val mediaSession = MediaSessionCompat(context, PlayerConstant.MEDIA_SESSION_TAG)
+        mediaSession.isActive  =  true
+        val mediaSessionConnector  = MediaSessionConnector(mediaSession)
+        mediaSessionConnector.setQueueNavigator(object : TimelineQueueNavigator(mediaSession){
+            override fun getMediaDescription(player: Player?, windowIndex: Int): MediaDescriptionCompat {
+                return Music.getMediaDescription(musicList.value?.get(windowIndex))
+            }
+        })
+        mediaSessionConnector.setPlayer(player, null)
+        return mediaSession
+    }
+
+    private fun setPlayerNotificationManager(sessionToken: MediaSessionCompat.Token, descriptionAdapter: DescriptionAdapter, player: SimpleExoPlayer){
+        val playerNotificationManager = PlayerNotificationManager.createWithNotificationChannel(
             context,
-            "playback_channel",
+            PlayerConstant.CHANNEL_ID,
             R.string.playback_channel_name,
             R.string.playback_channel_description,
-            1,
+            PlayerConstant.NOTIFICATION_ID,
             descriptionAdapter)
         playerNotificationManager.setFastForwardIncrementMs(0)
         playerNotificationManager.setRewindIncrementMs(0)
         playerNotificationManager.setUseNavigationActionsInCompactView(true)
         playerNotificationManager.setPlayer(player)
-
-
-        mediaSession = MediaSessionCompat(context, "audio_demo")
-        mediaSession.isActive  =  true
-        playerNotificationManager.setMediaSessionToken(mediaSession.sessionToken)
-
-        mediaSessionConnector  = MediaSessionConnector(mediaSession)
-        mediaSessionConnector.setQueueNavigator(object : TimelineQueueNavigator(mediaSession){
-            override fun getMediaDescription(
-                player: Player?,
-                windowIndex: Int
-            ): MediaDescriptionCompat {
-                return Music.getMediaDescription(musicList.value?.get(windowIndex))
-            }
-
-        })
-        mediaSessionConnector.setPlayer(player, null)
-      return player
+        playerNotificationManager.setMediaSessionToken(sessionToken)
     }
 }

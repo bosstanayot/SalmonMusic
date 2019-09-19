@@ -69,5 +69,4 @@
             android:layout_height="50dp"
             android:src="@drawable/ic_skip_next_black_24dp"/>
     </LinearLayout>
-
 </LinearLayout>

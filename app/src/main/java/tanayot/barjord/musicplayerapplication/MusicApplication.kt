@@ -5,6 +5,9 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import tanayot.barjord.musicplayerapplication.di.musicModule
+import tanayot.barjord.musicplayerapplication.di.networkModule
+
+val modules = listOf(musicModule, networkModule)
 
 class MusicApplication: Application() {
     override fun onCreate() {
@@ -12,7 +15,7 @@ class MusicApplication: Application() {
         startKoin {
             androidLogger()
             androidContext(this@MusicApplication)
-            modules(musicModule)
+            modules(modules)
         }
     }
 }

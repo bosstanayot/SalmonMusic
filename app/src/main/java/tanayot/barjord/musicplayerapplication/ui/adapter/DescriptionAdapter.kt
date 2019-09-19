@@ -1,4 +1,4 @@
-package tanayot.barjord.musicplayerapplication.ui
+package tanayot.barjord.musicplayerapplication.ui.adapter
 
 import android.app.PendingIntent
 import android.content.Context
@@ -11,7 +11,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import tanayot.barjord.musicplayerapplication.MusicActivity
-import tanayot.barjord.musicplayerapplication.viewmodels.MusicListViewModel
+import tanayot.barjord.musicplayerapplication.ui.viewmodels.MusicListViewModel
 
 class DescriptionAdapter(private val context:Context,
                          private val viewModel: MusicListViewModel): PlayerNotificationManager.MediaDescriptionAdapter {

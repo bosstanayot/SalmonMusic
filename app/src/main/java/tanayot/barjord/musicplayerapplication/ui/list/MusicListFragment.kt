@@ -1,24 +1,16 @@
 package tanayot.barjord.musicplayerapplication.ui.list
 
-import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.ValueAnimator
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.media.session.MediaSessionCompat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.BounceInterpolator
 import androidx.lifecycle.Observer
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
@@ -28,18 +20,17 @@ import kotlinx.android.synthetic.main.player_fragment.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import tanayot.barjord.musicplayerapplication.MyPlayer
-import tanayot.barjord.musicplayerapplication.PlayerListener
-import tanayot.barjord.musicplayerapplication.ui.DescriptionAdapter
+import tanayot.barjord.musicplayerapplication.ui.player.MyPlayer
+import tanayot.barjord.musicplayerapplication.ui.adapter.DescriptionAdapter
 import tanayot.barjord.musicplayerapplication.service.MusicPlayerService
 import tanayot.barjord.musicplayerapplication.R
 import tanayot.barjord.musicplayerapplication.databinding.MusicListFragmentBinding
 import tanayot.barjord.musicplayerapplication.model.Music
-import tanayot.barjord.musicplayerapplication.viewmodels.MusicListViewModel
-import kotlin.random.Random
+import tanayot.barjord.musicplayerapplication.ui.player.PlayerListener
+import tanayot.barjord.musicplayerapplication.ui.viewmodels.MusicListViewModel
 
 class MusicListFragment : Fragment(), MusicListListener {
-    var player: SimpleExoPlayer? = null
+    private var player: SimpleExoPlayer? = null
     private val myPlayer: MyPlayer by inject()
     private val viewModel: MusicListViewModel by viewModel()
     private lateinit var binding: MusicListFragmentBinding
@@ -56,26 +47,28 @@ class MusicListFragment : Fragment(), MusicListListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val intent = Intent(context, MusicPlayerService::class.java)
-        context?.startService(intent)
-        dataSourceFactory = DefaultDataSourceFactory(
-                context,
-        Util.getUserAgent(context, getString(R.string.app_name))
-        )
+
+        setService()
+        dataSourceFactory = DefaultDataSourceFactory(context, Util.getUserAgent(context, getString(R.string.app_name)))
 
         binding.swipeLayout.setOnRefreshListener{
             closePlayer()
             viewModel.getMusic()
         }
+
+        attachViewModel()
+    }
+
+    private fun attachViewModel(){
         viewModel.musicList.observe(this, Observer {
             binding.adapter?.submitList(it)
         })
 
-       viewModel.isInitLoading.observe(this, Observer {
+        viewModel.isInitLoading.observe(this, Observer {
             binding.swipeLayout.isRefreshing = it
         })
 
-        viewModel.musicDataList.observe(viewLifecycleOwner, Observer {})
+        viewModel.musicDataList.observe(this, Observer {})
 
         viewModel.lastMusicDataList.observe(this, Observer {
             addMusicToConcatenatingMediaSource(viewModel.lastMusicDataList.value!!)
@@ -86,20 +79,20 @@ class MusicListFragment : Fragment(), MusicListListener {
         })
     }
 
-    override fun onMusicClicked(music: Music?, position: Int) {
+    override fun onMusicClicked(position: Int) {
         if(player == null){
             initPlayer()
             setPlayerPanel()
         }
-        player?.seekTo(position, 0)
-        player?.playWhenReady = true
+        selectMusicAndPlay(position)
     }
 
     private fun initPlayer(){
-        player = myPlayer.initPlayer(concatenatingMediaSource, descriptionAdapter, viewModel.musicDataList, object :PlayerListener{
+        player = myPlayer.initPlayer(concatenatingMediaSource, descriptionAdapter, viewModel.musicDataList, object :
+            PlayerListener {
             override fun onTracksChanged(currentWindowIndex: Int) {
                 binding.playerView.viewModel = viewModel.apply {
-                    currentSong.value = musicDataList.value?.get(player?.currentWindowIndex!!)
+                    setCurrentMusic(player?.currentWindowIndex!!)
                 }
                 if(concatenatingMediaSource.size-1 == player?.currentWindowIndex){
                     viewModel.getMoreMusic(concatenatingMediaSource.size)
@@ -138,11 +131,21 @@ class MusicListFragment : Fragment(), MusicListListener {
     private fun closePlayer(){
         player?.stop()
         player?.release()
-        viewModel.currentSong.value = Music()
+        viewModel.currentMusic.value = Music()
         binding.slidingLayout.playerView.collapesLayout.imageViewCollapse.setImageResource(0)
         player = null
         concatenatingMediaSource.clear()
         binding.slidingLayout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+    }
+
+    private fun setService(){
+        val intent = Intent(context, MusicPlayerService::class.java)
+        context?.startService(intent)
+    }
+
+    private fun selectMusicAndPlay(position: Int){
+        player?.seekTo(position, 0)
+        player?.playWhenReady = true
     }
 
 }

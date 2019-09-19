@@ -1,4 +1,4 @@
-package tanayot.barjord.musicplayerapplication.ui
+package tanayot.barjord.musicplayerapplication.ui.adapter
 
 import android.graphics.drawable.Drawable
 import android.view.View

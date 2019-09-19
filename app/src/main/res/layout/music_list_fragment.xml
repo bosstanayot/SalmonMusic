@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="tanayot.barjord.musicplayerapplication.viewmodels.MusicListViewModel" />
+            type="tanayot.barjord.musicplayerapplication.ui.viewmodels.MusicListViewModel" />
         <variable
             name="adapter"
             type="tanayot.barjord.musicplayerapplication.ui.list.MusicListViewAdapter" />

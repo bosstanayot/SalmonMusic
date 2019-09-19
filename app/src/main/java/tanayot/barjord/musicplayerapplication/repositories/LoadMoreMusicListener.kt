@@ -1,4 +1,4 @@
-package tanayot.barjord.musicplayerapplication
+package tanayot.barjord.musicplayerapplication.repositories
 
 import com.github.kittinunf.fuel.core.FuelError
 import tanayot.barjord.musicplayerapplication.model.Music

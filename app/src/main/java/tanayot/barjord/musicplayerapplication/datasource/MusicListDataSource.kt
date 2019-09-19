@@ -6,16 +6,19 @@ import androidx.paging.PageKeyedDataSource
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
 import tanayot.barjord.musicplayerapplication.ApiConstant
-import tanayot.barjord.musicplayerapplication.SingleLiveEvent
+import tanayot.barjord.musicplayerapplication.util.SingleLiveEvent
 import tanayot.barjord.musicplayerapplication.model.Music
 import tanayot.barjord.musicplayerapplication.model.PagingMusic
 
 class MusicListDataSource(private val api:  Fuel,  private val dataPath: String): PageKeyedDataSource<String, Music>() {
     val isInitLoading = MutableLiveData<Boolean>()
     val networkError = MutableLiveData<FuelError>()
-    val tempMusicList = SingleLiveEvent<ArrayList<Music>>()
-    val musicDataList = SingleLiveEvent<ArrayList<Music>>()
-    val lastMusicDataList = SingleLiveEvent<ArrayList<Music>>()
+    val tempMusicList =
+        SingleLiveEvent<ArrayList<Music>>()
+    val musicDataList =
+        SingleLiveEvent<ArrayList<Music>>()
+    val lastMusicDataList =
+        SingleLiveEvent<ArrayList<Music>>()
     private var countMusic = 0
     override fun loadInitial(
         params: LoadInitialParams<String>,
