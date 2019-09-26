@@ -9,7 +9,7 @@ import tanayot.barjord.musicplayerapplication.util.SingleLiveEvent
 class DataResult(
     val result: LiveData<PagedList<Music>> = MutableLiveData(),
     val isInitLoading: LiveData<Boolean> = MutableLiveData(),
-    val networkError: LiveData<FuelError> = MutableLiveData(),
+    val networkError: MutableLiveData<FuelError> = MutableLiveData(),
     val musicDataList: MutableLiveData<ArrayList<Music>> = SingleLiveEvent(),
     val tempMusicList: MutableLiveData<ArrayList<Music>> = SingleLiveEvent(),
     val lastMusicDataList: LiveData<ArrayList<Music>> = SingleLiveEvent()

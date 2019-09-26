@@ -47,7 +47,6 @@ class MusicListDataSource(private val api:  Fuel,  private val dataPath: String)
         countMusic += 10
         Log.w("data",  "before if ${tempMusicList.value?.size}")
         if(tempMusicList.value?.size == 0) {
-           // Log.w("sizedata",  "${params.key}")
             api.get(params.key)
                 .responseObject(PagingMusic.Deserializer()) { _, _, result ->
                     result.fold(success = { pagingMusic ->
@@ -66,10 +65,7 @@ class MusicListDataSource(private val api:  Fuel,  private val dataPath: String)
             countMusic = musicDataList.value!!.size
             val tempLastest = arrayListOf<Music>()
             tempLastest.addAll(tempMusicList.value!!)
-            Log.w("data",  "else ${tempMusicList.value?.size}")
             tempMusicList.value?.clear()
-            Log.w("data",  "temp ${tempLastest.size}")
-
             callback.onResult(tempLastest,ApiConstant.BASE_URL+"music?offset=${countMusic}}&limit=10")
         }
     }

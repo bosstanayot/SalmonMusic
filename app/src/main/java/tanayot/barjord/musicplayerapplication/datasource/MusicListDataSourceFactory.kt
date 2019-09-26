@@ -1,6 +1,5 @@
 package tanayot.barjord.musicplayerapplication.datasource
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
@@ -15,7 +14,7 @@ class MusicListDataSourceFactory(api: Fuel, dataPath: String): DataSource.Factor
     val musicDataList: MutableLiveData<ArrayList<Music>> = musicSource.musicDataList
     val tempMusicList: MutableLiveData<ArrayList<Music>> = musicSource.tempMusicList
     val isInitLoading: LiveData<Boolean> = musicSource.isInitLoading
-    val networkError: LiveData<FuelError> = musicSource.networkError
+    val networkError: MutableLiveData<FuelError> = musicSource.networkError
     val lastMusicDataList: LiveData<ArrayList<Music>> = musicSource.lastMusicDataList
     override fun create(): DataSource<String, Music> = musicSource
 

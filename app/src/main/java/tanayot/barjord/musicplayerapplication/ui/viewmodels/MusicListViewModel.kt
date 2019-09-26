@@ -17,7 +17,7 @@ class MusicListViewModel (private val musicListRepository: MusicListRepository,
 ):ViewModel(),
     LoadMoreMusicListener {
 
-    val dataResult:  MutableLiveData<DataResult> = MutableLiveData()
+    private val dataResult:  MutableLiveData<DataResult> = MutableLiveData()
     var musicList: LiveData<PagedList<Music>> = Transformations.switchMap(dataResult){it.result}
     var tempMusicList: LiveData<ArrayList<Music>> = Transformations.switchMap(dataResult){it.tempMusicList}
     var musicDataList: LiveData<ArrayList<Music>> = Transformations.switchMap(dataResult){it.musicDataList}
@@ -45,6 +45,7 @@ class MusicListViewModel (private val musicListRepository: MusicListRepository,
     }
 
     override fun onGetMusicFailure(error: FuelError) {
+        dataResult.value?.networkError?.value = error
     }
 
     fun setCurrentMusic(indexMusic: Int){

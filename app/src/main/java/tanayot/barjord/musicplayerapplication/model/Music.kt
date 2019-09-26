@@ -1,22 +1,12 @@
 package tanayot.barjord.musicplayerapplication.model
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import com.github.kittinunf.fuel.core.ResponseDeserializable
-import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import androidx.recyclerview.widget.DiffUtil
-import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
-import android.R.attr.bitmap
 import android.net.Uri
 
 

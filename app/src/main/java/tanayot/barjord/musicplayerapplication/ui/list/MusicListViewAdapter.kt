@@ -23,7 +23,7 @@ class MusicListViewAdapter(private val listener: MusicListListener):PagedListAda
         fun bind(item: Music?){
             binding.music =  item
             binding.root.setOnClickListener {
-                listener.onMusicClicked(item, adapterPosition)
+                listener.onMusicClicked(adapterPosition)
             }
         }
     }
