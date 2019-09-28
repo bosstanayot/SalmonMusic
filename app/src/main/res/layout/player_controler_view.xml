@@ -7,10 +7,10 @@
     <com.google.android.exoplayer2.ui.DefaultTimeBar
         android:id="@+id/exo_progress"
         android:layout_width="match_parent"
-        app:played_color="@color/colorAccent"
-        app:scrubber_color="@color/colorAccent"
+        app:played_color="@color/played_color"
+        app:scrubber_color="@color/played_color"
         app:unplayed_color="@color/unplay_color"
-        app:buffered_color="@color/unplay_color"
+        app:buffered_color="@color/buffer_color"
         android:layout_height="16dp"/>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:paddingRight="4dp"
             android:includeFontPadding="false"
             android:layout_alignParentLeft="true"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/ss_black"/>
 
         <TextView android:id="@id/exo_duration"
             android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
             android:paddingRight="4dp"
             android:layout_alignParentRight="true"
             android:includeFontPadding="false"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/ss_black"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -56,11 +56,15 @@
                 android:id="@+id/exo_pause"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:background="@drawable/oval_play_pause_background"
+                android:tint="@color/colorAccent"
                 android:src="@drawable/ic_pause_black_24dp"/>
             <ImageView
                 android:id="@+id/exo_play"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:tint="@color/colorAccent"
+                android:background="@drawable/oval_play_pause_background"
                 android:src="@drawable/ic_play_arrow_black_24dp"/>
         </LinearLayout>
         <ImageView

@@ -86,7 +86,7 @@
                 android:gravity="center"
                 android:text="@{viewModel.currentMusic.title}"
                 android:textColor="@color/ss_black"
-                android:textSize="@dimen/text_size_28"
+                android:textSize="@dimen/text_size_20"
                 android:textStyle="bold" />
 
             <TextView
@@ -95,7 +95,7 @@
                 android:gravity="center"
                 android:text="@{viewModel.currentMusic.artist}"
                 android:textColor="@color/ss_black"
-                android:textSize="@dimen/text_size_28"
+                android:textSize="@dimen/text_size_20"
                 android:textStyle="normal" />
 
             <com.google.android.exoplayer2.ui.PlaybackControlView

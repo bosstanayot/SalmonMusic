@@ -8,15 +8,11 @@ import com.github.kittinunf.fuel.core.FuelError
 import tanayot.barjord.musicplayerapplication.model.Music
 
 class MusicListDataSourceFactory(api: Fuel, dataPath: String): DataSource.Factory<String, Music>(){
-    private val musicSource =
-        MusicListDataSource(api, dataPath)
-
+    private val musicSource = MusicListDataSource(api, dataPath)
     val musicDataList: MutableLiveData<ArrayList<Music>> = musicSource.musicDataList
     val tempMusicList: MutableLiveData<ArrayList<Music>> = musicSource.tempMusicList
     val isInitLoading: LiveData<Boolean> = musicSource.isInitLoading
     val networkError: MutableLiveData<FuelError> = musicSource.networkError
     val lastMusicDataList: LiveData<ArrayList<Music>> = musicSource.lastMusicDataList
     override fun create(): DataSource<String, Music> = musicSource
-
-
 }

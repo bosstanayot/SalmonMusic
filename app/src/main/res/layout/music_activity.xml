@@ -8,13 +8,6 @@
     android:orientation="vertical"
     tools:context=".MusicActivity" >
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_height="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:id="@+id/toolbar"
-        android:background="?attr/colorPrimary"
-        app:title="Music"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
