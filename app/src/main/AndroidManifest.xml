@@ -22,9 +22,6 @@
         </activity>
         <service android:name=".service.MusicPlayerService"/>
     </application>
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <dist:module dist:instant="true" />
 
 </manifest>

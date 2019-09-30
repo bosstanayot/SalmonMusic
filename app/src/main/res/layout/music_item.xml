@@ -11,13 +11,23 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/grid_space_10"
-        >
-        <ImageView
-            android:id="@+id/img_song_list"
+        android:padding="@dimen/grid_space_10">
+
+        <RelativeLayout
             android:layout_width="@dimen/img_list_song"
-            android:layout_height="@dimen/img_list_song"
-            bind:musicImage="@{music.picUrl}"/>
+            android:layout_height="@dimen/img_list_song">
+            <ImageView
+                android:id="@+id/img_song_list"
+                android:layout_width="@dimen/img_list_song"
+                android:layout_height="@dimen/img_list_song"
+                bind:musicImage="@{music.picUrl}"
+                bind:progressBar="@{progressBarImage}"/>
+            <ProgressBar
+                android:id="@+id/progressBarImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

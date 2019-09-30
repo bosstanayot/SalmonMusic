@@ -11,6 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import tanayot.barjord.musicplayerapplication.R
 
 object ImageBindingAdapter{
     @JvmStatic
@@ -21,6 +22,7 @@ object ImageBindingAdapter{
             Glide.with(imageView.context)
                 .load(imageURL)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.image_place_holder)
                 .addListener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         e: GlideException?,
